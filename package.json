@@ -11,9 +11,9 @@
     "url": "git+https://github.com/thegreatrazz/wwwserve.git"
   },
   "keywords": [
-    "webserver",
+    "web-server",
     "http",
-    "https"
+    "simple"
   ],
   "author": "thegreatrazz",
   "license": "MIT",
@@ -25,6 +25,11 @@
     "chalk": "^2.2.0",
     "cheerio": "^1.0.0-rc.2",
     "commander": "^2.11.0",
-    "file-type": "^7.2.0"
+    "file-type": "^7.2.0",
+    "mime-types": "^2.1.17",
+    "node-string-pad": "0.0.4"
+  },
+  "bin": {
+    "wwwserve": "wwwserve.js"
   }
 }
