@@ -1,0 +1,30 @@
+{
+  "name": "wwwserve",
+  "version": "1.0.0",
+  "description": "A simple web server written in Node.js",
+  "main": "wwwserve.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thegreatrazz/wwwserve.git"
+  },
+  "keywords": [
+    "webserver",
+    "http",
+    "https"
+  ],
+  "author": "thegreatrazz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thegreatrazz/wwwserve/issues"
+  },
+  "homepage": "https://github.com/thegreatrazz/wwwserve#readme",
+  "dependencies": {
+    "chalk": "^2.2.0",
+    "cheerio": "^1.0.0-rc.2",
+    "commander": "^2.11.0",
+    "file-type": "^7.2.0"
+  }
+}
