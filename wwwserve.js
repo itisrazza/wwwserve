@@ -92,6 +92,9 @@ var httpServer = http.createServer(function(request, response)
     // Add a few server-specific headers
     response.setHeader("Server", `${ package.name }/${ package.version } (${ process.platform })`)
 
+    // Create variable for the response body
+    var responseBody;
+
     // Try-catch for server errors
     try
     {
@@ -100,14 +103,12 @@ var httpServer = http.createServer(function(request, response)
         !fs.lstatSync(path.join(serverRoot, request.url)).isDirectory()) // is not a directory
         {   
             // Respond with the file
-            response.write(fs.readFileSync(path.join(serverRoot, request.url)))
-            response.end()
+            responseBody = fs.readFileSync(path.join(serverRoot, request.url))
         }
         else if (fs.existsSync(path.join(serverRoot, request.url, program.index || "index.html")))
         {
             // Respond with the file
-            response.write(fs.readFileSync(path.join(serverRoot, request.url, program.index || "index.html")))
-            response.end()
+            responseBody = fs.readFileSync(path.join(serverRoot, request.url, program.index || "index.html"))
         }
         else
         {
@@ -115,26 +116,25 @@ var httpServer = http.createServer(function(request, response)
             response.statusCode = 404
 
             // Throw a 404 page
-            response.write(errorPage("404 Not Found", "Whatever you were trying to find... we didn't.<br>How about trying to sit back, take 30 and try again?"))
-            response.end()
+            responseBody = errorPage("404 Not Found", "Whatever you were trying to find... we didn't.<br>How about trying to sit back, take 30 and try again?")
 
             // TODO: Custom 404 pages... Just like GitHub Pages.
         }
     }
     catch (e)
     {
-        // TODO: Reorganise this mess.
-        //       You can't really remove the response body once you sent it.
-        //       I'll replace everything with a variable that'll be sent at the very end
-        //       in a future commit.
-
-        // Error information
+        // Headers
         response.statusCode = 500
+        response.setHeader("X-JS-Exception", e)
 
         // Throw a 500 page
-        response.write(errorPage("500 Internal Server Error", "Good job on breaking the server!<br><br><a href='https://github.com/thegreatrazz/wwwserve/issues' target='_blank'>Submit an issue</a>"))
-        response.end()
+        responseBody = errorPage("500 Internal Server Error",
+                                 "Good job on breaking the server!<br>Go to the Network debugger and <a href='https://github.com/thegreatrazz/wwwserve/issues/new' target='_blank'>submit an issue</a>.")
     }
+
+    // Finally, send the response
+    response.write(responseBody)
+    response.end()
 
     // Finally, display request information
     var statusCodeOut;
