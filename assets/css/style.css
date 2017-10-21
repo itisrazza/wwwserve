@@ -1,0 +1,192 @@
+
+* { box-sizing: border-box; }
+
+:root {
+    font-family: "Roboto", sans-serif;
+    font-size: 14px;
+    background: #FAFAFA;
+    color: #212121;
+}
+
+body {
+    min-height: 100vh;
+}
+
+a {
+    color: #666;
+    text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "Roboto Condensed", "Roboto", sans-serif;
+    text-transform: uppercase;
+    font-weight: inherit;
+}
+
+code, pre, kbd {
+    font-family: "Roboto Mono", monospace;
+    font-size: 12px;
+}
+
+.badge {
+    font-family: "Roboto Condensed", "Roboto", sans-serif;
+    font-size: 12px;
+    background: #333;
+    color: #FAFAFA;
+    padding: 2px 5px;
+    border-radius: 500px;
+}
+
+body > nav {
+    background: rgba(255, 255, 255, .9);
+    color: #212121;
+    font-family: "Roboto Condensed", "Roboto", sans-serif;
+    font-size: 0;
+    text-transform: uppercase;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    transition: background .1s, color .1s, border-color .1s;
+}
+
+body > nav.top {
+    background: none;
+    color: #FAFAFA;
+}
+
+body > nav.top .container {
+    border-bottom: 1px solid rgba(255, 255, 255, .8);
+}
+
+body > nav .nav-brand {
+    font-weight: bold;
+}
+
+body > nav a {
+    display: inline-block;
+    color: inherit;
+    padding: 10px;
+    padding-bottom: 8px;
+    border-width: 0;
+    border-color: transparent;
+    border-style: solid;
+    border-bottom-width: 2px;
+    font-size: 1rem;
+}
+
+body > nav.top a {
+    border-bottom-width: 1px;
+}
+
+body > nav a:hover {
+    border-color: rgba(0, 0, 0, .5);
+}
+
+body > nav.top a:hover {
+    border-color: rgba(255, 255, 255, .6);
+}
+
+body > nav a:active,
+body > nav a.active {
+    border-color: #212121;
+}
+
+body > nav.top a:active,
+body > nav.top a.active {
+    border-color: rgba(255, 255, 255, .8);
+}
+
+body > nav .nav-accordion {
+    float: right;
+    display: none;
+}
+
+body > nav ul {
+    float: right;
+    list-style: none;
+    margin: 0; padding: 0;
+}
+
+body > nav ul li {
+    display: inline-block;
+}
+
+@media only screen and (max-width: 640px) {
+    body > nav a {
+        border-bottom-width: 0;
+        border-left-width: 2px;
+        padding: 10px;
+        padding-left: 8px;
+    }
+
+    body > nav.top a {
+        border-bottom-width: 0;
+        padding: 10px;
+        padding-left: 8px;
+        padding-bottom: 9px;
+    }
+    
+    body > nav .nav-accordion {
+        display: unset;
+        border-left: none;
+        padding: 10px;
+        padding-left: 10px;
+    }
+
+    body > nav .nav-accordion:hover {
+        background: rgba(255, 255, 255, .8);
+        color: #212121;
+    }
+
+    body > nav .nav-accordion.active {
+        background: #212121;
+        color: #FAFAFA;
+    }
+
+    body > nav ul {
+        float: none;
+        display: none;
+    }
+
+    body > nav.top ul {
+        border-top: 1px solid rgba(255, 255, 255, .8);
+    }
+
+    body > nav ul.active {
+        display: block;
+    }
+
+    body > nav ul li {
+        display: block;
+    }
+
+    body > nav ul li a {
+        display: block;
+        padding: 10px;
+        padding-left: 8px;
+    }
+}
+
+body > header {
+    background: linear-gradient(to bottom right, #2980b9, #16a085);
+    color: #FAFAFA;
+    font-size: 16px;
+    padding-top: 76px;
+    padding-bottom: 40px;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, .2);
+}
+
+body > footer {
+    font-size: 12px;
+    background: #212121;
+    color: #999;
+    text-align: center;
+    padding: 15px 0;
+}
+
+.container {
+    min-width: 300px;
+    width: 65%;
+    margin-left: auto;
+    margin-right: auto;
+}

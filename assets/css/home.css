@@ -1,0 +1,110 @@
+
+body > header {
+    min-height: 100vh;
+    background: linear-gradient(to bottom right, #8e44ad, #c0392b);
+    color: #FAFAFA;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    text-shadow: 0 2px 0 rgba(0, 0, 0, .2);
+}
+
+#globe {
+    background: linear-gradient(to bottom, #1A237E, #2196F3);
+    position: relative;
+    width: 150px; height: 150px;
+    /* clip-path: circle(49% at center); */
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, .2);
+    margin: auto;
+}
+
+#globe-projection {
+    position: absolute;
+    width: 600px; height: 150px;
+    background-image: url(../img/global_map.svg);
+    background-size: 300px 150px;
+    animation: globe-projection 5s linear infinite;
+    filter: drop-shadow(0 1px 0 rgba(0, 0, 0, .2));
+}
+
+@keyframes globe-projection {
+    0% {
+        transform: scale(1.02);
+    }
+    
+    50% {
+        transform: translateX(-25%) scale(1.02);
+    }
+    
+    100% {
+        transform: translateX(-50%) scale(1.02);
+    }
+}
+
+#downloadbox {
+    text-shadow: none;
+    font-size: 0;
+    display: flex;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 2px 0 rgba(0, 0, 0, .2);
+}
+
+#downloadbox code {
+    display: block;
+    font-size: 1rem;
+    padding: 10px;
+    background: #212121;
+    color: #FAFAFA;
+    flex-grow: 1;
+}
+
+#downloadbox a {
+    display: block;
+    font-size: 1rem;
+    padding: 10px;
+    font-family: "Roboto Condensed", "Roboto", sans-serif;
+    text-transform: uppercase;    
+    background: #1976D2;
+    color: #FAFAFA;
+    flex-grow: 1;
+}
+
+#downloadbox a:hover {
+    background: #1565C0;
+    color: #FAFAFA;
+}
+
+#downloadbox a:active {
+    background: #0D47A1;
+    color: #FAFAFA;
+}
+
+@media only screen and (max-width: 450px) {
+    #downloadbox {
+        display: block;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+}
+
+body > footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    background: none;
+    color: #FAFAFA;
+    padding: 0;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .2);
+}
+
+body > footer > .container {
+    border-top: 1px solid rgba(255, 255, 255, .8);
+    padding: 10px 0;
+}
+
+body > footer a {
+    color: #CCC;
+}
