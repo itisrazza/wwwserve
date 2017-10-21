@@ -32,11 +32,10 @@ program.version(package.version)
        .action(function(directory) {
             serverRoot = directory;
        })
-       .option("-p, --port <port>", "HTTP port", parseInt)
-       .option("-c, --custom-404 [filename]", "custom 404 page (defaults to 404.html)")
-       .option("-d, --dir-listing", "show files in index-less directory")
-       .option("-D, --no-dir-listing", "return 404 in index-less directory")
-       .option("-i, --index <filename>", "filename of index file")
+       .option("-p, --port <port>", "HTTP port (defaults to 3000)", parseInt)
+       .option("-e, --error-404 [filename]", "custom 404 page (defaults to 404.html)")
+       .option("-d, --no-dir-listing", "return 404 in index-less directory")
+       .option("-i, --index <filename>", "custom filename for directory index")
        .parse(process.argv)
 
 // Check if the folder exists
@@ -93,13 +92,13 @@ var httpServer = http.createServer(function(request, response)
     response.setHeader("Server", `${ package.name }/${ package.version } (${ process.platform })`)
 
     // Create variable for the response body
-    var responseBody;
+    var responseBody = "";
 
     // Try-catch for server errors
     try
     {
         // Check if.. the file exists
-        if (fs.existsSync(path.join(serverRoot, request.url)) &&              // The file exists, and...
+        if (fs.existsSync(path.join(serverRoot, request.url)) &&         // The file exists, and...
         !fs.lstatSync(path.join(serverRoot, request.url)).isDirectory()) // is not a directory
         {   
             // Respond with the file
@@ -110,10 +109,90 @@ var httpServer = http.createServer(function(request, response)
             // Respond with the file
             responseBody = fs.readFileSync(path.join(serverRoot, request.url, program.index || "index.html"))
         }
+        else if (fs.existsSync(path.join(serverRoot, request.url)) &&              // The file exists, and...
+                 fs.lstatSync(path.join(serverRoot, request.url)).isDirectory() && // is a directory, and
+                 program.dirListing)                                               // directory listing is enabled
+        {
+            // If the request has a trailing "/"
+            if (request.url[request.url.length - 1] === "/")
+            {
+                // Use the template
+
+                // Header
+                response.setHeader("X-wwwserve", "Internal")
+                
+                // Do some magic
+                var dirviewTemplate = fs.readFileSync(path.join(__dirname, "wwwdata", "dirview.html"))
+                var $ = cheerio.load(dirviewTemplate)
+
+                // Replace URLs
+                $("[data-resource='dir-url']").html(request.url)
+
+                // If there is no parent, don't bother
+                if (request.url === "/")
+                    $("[data-dir-parent]").remove()
+                else // Otherwise set the time
+                {
+                    $("[data-resource='dir-parent-time']").html(fs.lstatSync(path.join(serverRoot, request.url)).mtime)
+                }
+
+                // Get a list of files
+                var dirContents = fs.readdirSync(path.join(serverRoot, request.url));
+                for (var i = 0; i < dirContents.length; i++)
+                {
+                    // Get additional information about the file
+                    var fileInfo = fs.lstatSync(path.join(serverRoot, request.url, dirContents[i]))
+
+                    // Copy the structure of the list item
+                    var listItem = $("[data-dir-structure]").clone()
+
+                    // Remove the data-dir-structure attr to prevent deleting all of them
+                    listItem.removeAttr("data-dir-structure")
+
+                    // Set variables
+                    listItem.children("[data-dir-file='icon']").html(fileInfo.isDirectory() ? "📁" : "📝")
+                    listItem.children("[data-dir-file='file']")
+                            .children("[data-dir-file='link']").attr("href", dirContents[i] + (fileInfo.isDirectory() ? "/" : ""))
+                                                            .text(dirContents[i] + (fileInfo.isDirectory() ? "/" : ""))
+                    listItem.children("[data-dir-file='time']").text(fileInfo.mtime)                
+                    listItem.children("[data-dir-file='size']").text(!fileInfo.isDirectory() ? fileInfo.size : "-")                
+
+                    // Add to table
+                    listItem.appendTo("tbody")
+                }
+
+                // Clear out template
+                $("[data-dir-structure]").remove()
+
+                // Include the CSS file
+                $("link[rel='stylesheet'][href]").each(function()
+                {
+                    // Create stylesheet element to house embedded CSS
+                    var style = $("<style />")
+                    style.text(fs.readFileSync(path.join(__dirname, "wwwdata", $(this).attr("href"))))
+        
+                    // Add to page and delete this one
+                    style.appendTo($(this).parent())
+                    $(this).remove()
+                })
+
+                // Add to response
+                responseBody = $.html()
+            }
+            else
+            {
+                // Otherwise, redirect
+                response.statusCode = 301
+                response.setHeader("Location", request.url + "/")
+            }
+        }
         else
         {
             // Headers
             response.statusCode = 404
+
+            // Check 
+            response.setHeader("X-wwwserve", "Internal")
 
             // Throw a 404 page
             responseBody = errorPage("404 Not Found", "Whatever you were trying to find... we didn't.<br>How about trying to sit back, take 30 and try again?")
@@ -125,6 +204,7 @@ var httpServer = http.createServer(function(request, response)
     {
         // Headers
         response.statusCode = 500
+        response.setHeader("X-wwwserve", "Internal")
         response.setHeader("X-JS-Exception", e)
 
         // Throw a 500 page
@@ -141,7 +221,7 @@ var httpServer = http.createServer(function(request, response)
     if (response.statusCode >= 200 && response.statusCode < 300) // 2XX or 418   - Okay         - Green
         statusCodeOut = chalk.green(response.statusCode)
     if (response.statusCode >= 300 && response.statusCode < 400) // 3XX          - Redirect     - ???
-        statusCodeOut = chalk.green(response.statusCode)
+        statusCodeOut = chalk.cyan(response.statusCode)
     if (response.statusCode >= 400 && response.statusCode < 500) // 4XX (no 418) - Client error - Yellow
         statusCodeOut = chalk.yellow(response.statusCode)
     if (response.statusCode >= 500) // 5XX          - Server error - Red
@@ -152,13 +232,5 @@ var httpServer = http.createServer(function(request, response)
                 request.url)
 
 }).listen(program.port || 3000)
-
-// GET
-// POST
-// PUT
-// HEAD
-// OPTIONS
-// CONNECT
-// INFO
 
 console.log(`Server started on port ${ httpServer.address().port }.`)

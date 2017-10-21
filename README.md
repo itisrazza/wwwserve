@@ -32,11 +32,9 @@ wwwserve [options] <directory>
 | Short | Long               | Arguments             | Explanation                                  |
 |-------|--------------------|-----------------------|----------------------------------------------|
 | `-v`  | `--version`        | none                  | output the version number                    |
-| `-p`  | `--port`           | port number (integer) | HTTP port (default 3000)                     |
-| `-e`  | `--use-ext`        | none                  | use file extention (default)                 |
-| `-E`  | `--omit-ext`       | none                  | omit file extention (prioritises `.html`)    |
-| `-d`  | `--dir-listing`    | none                  | show files in index-less directory (default) |
-| `-D`  | `--no-dir-listing` | none                  | return `404` in index-less directory         |
+| `-p`  | `--port`           | port number (integer) | HTTP port (defaults to 3000)                 |
+| `-e`  | `--error-404`      | filename              | custom `404` page (defaults to `404.html`)   |
+| `-d`  | `--no-dir-listing` | none                  | return `404` in index-less directory         |
 | `-i`  | `--index`          | filename (string)     | custom filename for directory index          |
 | `-h`  | `--help`           | none                  | output usage information                     |
 
