@@ -1,28 +1,40 @@
 # wwwserve
-A simple web-server written in Node.js
+A simple web-server, ready to go at any time.
 
 > ## Please note
 >
-> This is still in development and a number of things are still not implmented.
-> Please use [the issues tab](https://github.com/thegreatrazz/wwwserve/issues) whenever possible.
+> This is still in development and a number of things are still not implemented.
+> Please submit [bug reports](https://github.com/thegreatrazz/wwwserve/issues) or [code](https://github.com/thegreatrazz/wwwserve/pulls) whenever possible.
+
+## Status
+[![npm](https://img.shields.io/npm/dt/wwwserve.svg?style=for-the-badge)](https://www.npmjs.com/package/wwwserve)
+[![Travis](https://img.shields.io/travis/thegreatrazz/wwwserve.svg?style=for-the-badge)](https://travis-ci.org/thegreatrazz/wwwserve)
+
 
 ## What's the point of this?
-The point of this is for me to get my hands dirty and learn Node.js web servery things.
+This started out as a learning excerise, but is now the thing I use whenever I need a testing server up and running.
 
-This is meant to be simplistic. For now, the idea is to have this in the command-line, ready to
-fire when I need a static web server up. Namely testing non-Jekyll [GitHub Pages](https://pages.github.com/) stuff.
-
-I know similar tools which do the same thing (and probably better), such as [sèvè](https://github.com/leny/seve).
-
-Hopefully, whatever this is will be a framework for another project I have planned down the pipeline. Don't quote me on that, though.
+This aims to be a simple ready-on-call web server for static content, or stuff that compiles to static content, but I would like it to become something a little bit for than that.
 
 ## Install
-You must have Git, Node.js and NPM installed.
+The version in the `master` branch will be available on npm.
+```bash
+npm install wwwserve -g
 ```
+
+### Working Code
+Work is being done on the `working` branch, and will be merged with `master` when the everything has been dealt with.
+
+You can download it from GitHub:
+```bash
 git clone https://github.com/thegreatrazz/wwwserve.git
+git checkout working
+
 npm install
 npm link
 ```
+
+If you did any work on it, I'll kindly ask you to consider making a pull request.
 
 ## Usage
 ```
@@ -31,7 +43,7 @@ wwwserve [options] <directory>
 ### Options
 | Short | Long               | Arguments             | Explanation                                  |
 |-------|--------------------|-----------------------|----------------------------------------------|
-| `-v`  | `--version`        | none                  | output the version number                    |
+| `-V`  | `--version`        | none                  | output the version number                    |
 | `-p`  | `--port`           | port number (integer) | HTTP port (defaults to 3000)                 |
 | `-e`  | `--error-404`      | filename              | custom `404` page (defaults to `404.html`)   |
 | `-d`  | `--no-dir-listing` | none                  | return `404` in index-less directory         |

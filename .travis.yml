@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+- node
+- lts/*
+- iojs
+- '6'
+- '7'
+- '8'
+- '9'
+- '10'
+deploy:
+  provider: npm
+  email: me@thegreatrazz.nz
+  api_key:
+    secure: jQFnRDVacW447/Uq7iRzomANhwJqj7JMOmjVt5WE1xOKrJxRko15LVQh3EjQemcz8Kn8KOb7Zf0+Jcw3IQed0iUdwl1F9AXCQO53RL34OuwsedmYBjllyHBriK5nBL5dzGs9NFfhjSQ2ohINKqnZdAovMk5/3uTHDnLCYD68FzmvqoFClO0I8IdFZQzCen/SuksCUHcnnXpkpMm2OL3WKLVAR9X2HV8skdwL8kxVqSF5LBxHkF+NOddUBFPRMutq6v8jTfx0NnvHtjaVksKuHBX7xo5xwldyjzW6eAYOGbHArznUEaPcIWXKwC+ffGMsXyuOcY8+yKBbXr3JHN3AHcBZRpv1B75n/GbZmwVG6nDJbnzmqdMVg+LqYgKp5kpxOzmh/iE0xxKamVLAva39Ulb67l+zjI93uRsJwVVWHE5M/oKLaQWbfrWz6zsWZ7ISQAyBRlCVU5PRAAZN9KU1bQhdKNGq6qH9NDH3tYLfMkMxa08dK8KIxuliy1IF0JLS6s8OmJVyAXEJY6nJfs2eal2OE37GdYj2zHuMhQzHCJqpxua4ZhY1KOzz9/t+X94GP0jPqq9ElYsmbk02WOVUyTnjSc17Wd0ygpZuX2KSSvRWmxtk3ZWucQ0PHyGg46+H6t1MbklaIc9hBPmR10hDGObpM4GIWTOcVo94+AnZL+Y=
+  on:
+    tags: true
+    branch: master
+    repo: thegreatrazz/wwwserve

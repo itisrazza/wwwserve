@@ -1,10 +1,11 @@
 {
   "name": "wwwserve",
-  "version": "1.0.0",
+  "version": "1.0.0-beta.1",
   "description": "A simple web server written in Node.js",
   "main": "wwwserve.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "wwwserve": "wwwserve.js",
+    "test": "bash test/test.sh"
   },
   "repository": {
     "type": "git",
