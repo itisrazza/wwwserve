@@ -4,8 +4,7 @@
   "description": "A simple web server written in Node.js",
   "main": "wwwserve.js",
   "scripts": {
-    "wwwserve": "wwwserve.js",
-    "test": "bash test/test.sh"
+    "test": "echo Hey!"
   },
   "repository": {
     "type": "git",
