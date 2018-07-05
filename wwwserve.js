@@ -138,27 +138,35 @@ var httpServer = http.createServer(function(request, response)
 
                 // Get a list of files
                 var dirContents = fs.readdirSync(path.join(serverRoot, request.url));
+                var filesOmmited = false;
                 for (var i = 0; i < dirContents.length; i++)
                 {
-                    // Get additional information about the file
-                    var fileInfo = fs.lstatSync(path.join(serverRoot, request.url, dirContents[i]))
+                    try {
+                        // Get additional information about the file
+                        var fileInfo = fs.lstatSync(path.join(serverRoot, request.url, dirContents[i]))
 
-                    // Copy the structure of the list item
-                    var listItem = $("[data-dir-structure]").clone()
+                        // Copy the structure of the list item
+                        var listItem = $("[data-dir-structure]").clone()
 
-                    // Remove the data-dir-structure attr to prevent deleting all of them
-                    listItem.removeAttr("data-dir-structure")
+                        // Remove the data-dir-structure attr to prevent deleting all of them
+                        listItem.removeAttr("data-dir-structure")
 
-                    // Set variables
-                    listItem.children("[data-dir-file='icon']").html(fileInfo.isDirectory() ? "📁" : "📝")
-                    listItem.children("[data-dir-file='file']")
-                            .children("[data-dir-file='link']").attr("href", dirContents[i] + (fileInfo.isDirectory() ? "/" : ""))
-                                                            .text(dirContents[i] + (fileInfo.isDirectory() ? "/" : ""))
-                    listItem.children("[data-dir-file='time']").text(fileInfo.mtime)                
-                    listItem.children("[data-dir-file='size']").text(!fileInfo.isDirectory() ? fileInfo.size : "-")                
+                        // Set variables
+                        listItem.children("[data-dir-file='icon']").html(fileInfo.isDirectory() ? "📁" : "📝")
+                        listItem.children("[data-dir-file='file']")
+                                .children("[data-dir-file='link']").attr("href", dirContents[i] + (fileInfo.isDirectory() ? "/" : ""))
+                                                                .text(dirContents[i] + (fileInfo.isDirectory() ? "/" : ""))
+                        listItem.children("[data-dir-file='time']").text(fileInfo.mtime)                
+                        listItem.children("[data-dir-file='size']").text(!fileInfo.isDirectory() ? fileInfo.size : "-")                
 
-                    // Add to table
-                    listItem.appendTo("tbody")
+                        // Add to table
+                        listItem.appendTo("tbody")
+                    }
+                    catch (ex)
+                    {
+                        response.setHeader("X-File-Omitted", true);
+                        continue;
+                    }
                 }
 
                 // Clear out template
