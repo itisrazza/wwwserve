@@ -8,4 +8,3 @@ wwwserve . > /dev/null &&
 
 # Start the testing script
 node test/test.js
-
