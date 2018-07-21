@@ -1,15 +1,12 @@
-# wwwserve
+# wwwserve (`working`)
 A simple web-server, ready to go at any time.
 
-> ## Please note
+> ## Working Branch
 >
-> This is still in development and a number of things are still not implemented.
-> Please submit [bug reports](https://github.com/thegreatrazz/wwwserve/issues) or [code](https://github.com/thegreatrazz/wwwserve/pulls) whenever possible.
+> This is the code currently in development. It may contain bugs and unfinished features.
 
 ## Status
-[![npm](https://img.shields.io/npm/dt/wwwserve.svg?style=for-the-badge)](https://www.npmjs.com/package/wwwserve)
-[![Travis](https://img.shields.io/travis/thegreatrazz/wwwserve.svg?style=for-the-badge)](https://travis-ci.org/thegreatrazz/wwwserve)
-
+[![Travis](https://img.shields.io/travis/thegreatrazz/wwwserve/working.svg?style=for-the-badge)](https://travis-ci.org/thegreatrazz/wwwserve)
 
 ## What's the point of this?
 This started out as a learning excerise, but is now the thing I use whenever I need a testing server up and running.
@@ -21,20 +18,6 @@ The version in the `master` branch will be available on npm.
 ```bash
 npm install wwwserve -g
 ```
-
-### Working Code
-Work is being done on the `working` branch, and will be merged with `master` when the everything has been dealt with.
-
-You can download it from GitHub:
-```bash
-git clone https://github.com/thegreatrazz/wwwserve.git
-git checkout working
-
-npm install
-npm link
-```
-
-If you did any work on it, I'll kindly ask you to consider making a pull request.
 
 ## Usage
 ```

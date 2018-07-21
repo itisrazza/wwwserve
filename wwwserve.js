@@ -98,23 +98,23 @@ var httpServer = http.createServer(function(request, response)
     try
     {
         // Check if.. the file exists
-        if (fs.existsSync(path.join(serverRoot, request.url)) &&         // The file exists, and...
-        !fs.lstatSync(path.join(serverRoot, request.url)).isDirectory()) // is not a directory
+        if (fs.existsSync(path.join(serverRoot, decodeURI(decodeURI(request.url))) &&         // The file exists, and...
+        !fs.lstatSync(path.join(serverRoot, decodeURI(request.url))).isDirectory())) // is not a directory
         {   
             // Respond with the file
-            responseBody = fs.readFileSync(path.join(serverRoot, request.url))
+            responseBody = fs.readFileSync(path.join(serverRoot, decodeURI(request.url)))
         }
-        else if (fs.existsSync(path.join(serverRoot, request.url, program.index || "index.html")))
+        else if (fs.existsSync(path.join(serverRoot, decodeURI(request.url), program.index || "index.html")))
         {
             // Respond with the file
-            responseBody = fs.readFileSync(path.join(serverRoot, request.url, program.index || "index.html"))
+            responseBody = fs.readFileSync(path.join(serverRoot, decodeURI(request.url), program.index || "index.html"))
         }
-        else if (fs.existsSync(path.join(serverRoot, request.url)) &&              // The file exists, and...
-                 fs.lstatSync(path.join(serverRoot, request.url)).isDirectory() && // is a directory, and
+        else if (fs.existsSync(path.join(serverRoot, decodeURI(request.url))) &&              // The file exists, and...
+                 fs.lstatSync(path.join(serverRoot, decodeURI(request.url))).isDirectory() && // is a directory, and
                  program.dirListing)                                               // directory listing is enabled
         {
             // If the request has a trailing "/"
-            if (request.url[request.url.length - 1] === "/")
+            if (decodeURI(request.url)[decodeURI(request.url).length - 1] === "/")
             {
                 // Use the template
 
@@ -126,24 +126,24 @@ var httpServer = http.createServer(function(request, response)
                 var $ = cheerio.load(dirviewTemplate)
 
                 // Replace URLs
-                $("[data-resource='dir-url']").html(request.url)
+                $("[data-resource='dir-url']").html(decodeURI(request.url))
 
                 // If there is no parent, don't bother
-                if (request.url === "/")
+                if (decodeURI(request.url) === "/")
                     $("[data-dir-parent]").remove()
                 else // Otherwise set the time
                 {
-                    $("[data-resource='dir-parent-time']").html(fs.lstatSync(path.join(serverRoot, request.url)).mtime)
+                    $("[data-resource='dir-parent-time']").html(fs.lstatSync(path.join(serverRoot, decodeURI(request.url))).mtime)
                 }
 
                 // Get a list of files
-                var dirContents = fs.readdirSync(path.join(serverRoot, request.url));
+                var dirContents = fs.readdirSync(path.join(serverRoot, decodeURI(request.url)));
                 var filesOmmited = false;
                 for (var i = 0; i < dirContents.length; i++)
                 {
                     try {
                         // Get additional information about the file
-                        var fileInfo = fs.lstatSync(path.join(serverRoot, request.url, dirContents[i]))
+                        var fileInfo = fs.lstatSync(path.join(serverRoot, decodeURI(request.url), dirContents[i]))
 
                         // Copy the structure of the list item
                         var listItem = $("[data-dir-structure]").clone()
@@ -191,7 +191,7 @@ var httpServer = http.createServer(function(request, response)
             {
                 // Otherwise, redirect
                 response.statusCode = 301
-                response.setHeader("Location", request.url + "/")
+                response.setHeader("Location", decodeURI(request.url) + "/")
             }
         }
         else
@@ -237,7 +237,7 @@ var httpServer = http.createServer(function(request, response)
 
     console.log(pad(request.method, 8) +
                 statusCodeOut + " " +
-                request.url)
+                decodeURI(request.url))
 
 }).listen(program.port || 3000)
 
