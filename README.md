@@ -1,12 +1,14 @@
-# wwwserve (`working`)
+# wwwserve
 A simple web-server, ready to go at any time.
 
-> ## Working Branch
 >
-> This is the code currently in development. It may contain bugs and unfinished features.
-
-## Status
-[![Travis](https://img.shields.io/travis/thegreatrazz/wwwserve/working.svg?style=for-the-badge)](https://travis-ci.org/thegreatrazz/wwwserve)
+> This project is now deprecated. There are other better testing server if you're seriously looking for one:
+>
+> * [`http-server`](https://www.npmjs.com/package/http-server)
+> * `python -m http.server 8000`
+> * `php -S localhost:8000`
+> * `busybox httpd -p 127.0.0.1:8000 -h $PWD`
+>
 
 ## What's the point of this?
 This started out as a learning excerise, but is now the thing I use whenever I need a testing server up and running.
